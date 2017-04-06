@@ -11,18 +11,18 @@ Source data
 """
 
 # directories
-root_dir = '/users-archive/neil/attention'
+root_dir = ''
 data_dir = join( root_dir, 'data' )
 raw_data_dir = join( data_dir, 'CohenMaunsell2009' )
 computations_dir = join( data_dir, 'computations' )
 
 # available files
-prefixes = np.sort([
-    f.split('_rates')[0] 
-    for f in os.listdir(raw_data_dir) if f.count('_ratesnex.mat')
-    and not f.startswith('djor803051') ])
+##prefixes = np.sort([
+#    f.split('_rates')[0] 
+#    for f in os.listdir(raw_data_dir) if f.count('_ratesnex.mat')
+#    and not f.startswith('djor803051') ])
 
-N_prefixes = len(prefixes)
+#N_prefixes = len(prefixes)
 
 
 """
@@ -32,6 +32,7 @@ Classes
 """
 
 class RawData( AutoCR ):
+
 
     """ Class for loading and processing data from Cohen / Maunsell """
     
@@ -904,6 +905,8 @@ class EventData( AutoCR ):
 
     @property
     def group_by_trial( self ):
+        #from IPython.core.debugger import Tracer
+        #Tracer()
         # unique trials
         trials, idxs = np.unique( self.trial_idxs, return_index=True )
         # new spike counts

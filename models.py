@@ -114,7 +114,7 @@ class CueAlone( AutoCR ):
             self.n = n
             self.z_vec = C__sn[:, n]
             z_vec = fmin_ncg( objective, self.z_vec, jacobian, fhess=hessian,
-                        disp=False, avextol=1e-3 )
+                        disp=True, avextol=1e-3 )
             C__sn[ :, n ] = z_vec[-S:]
         # save
         self.C__sn = C__sn

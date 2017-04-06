@@ -3,19 +3,24 @@ from helpers import *
 import attention
 reload(attention)
 from attention import *
-import pop
-
+import pop 
 # core data
+"""
 if not locals().has_key('event_data'):
     event_data = cPickle.load(open('data/event_data.pickle'))
 
 event_data.load_attribute('C')
 
-"""
 =======
 classes
 =======
 """
+
+def logdet(X):
+    """ Log determinant of a matrix. """
+    return np.linalg.slogdet(X)[1]
+
+
 
 class PopData( pop.PopData ):                                                                            
     
@@ -154,11 +159,9 @@ def fit_CG( d_idx, check=False ):
     d.save_attribute(attr)
 
 
-"""
 ====
 jobs
 ====
-"""
 
 # job list
 jobs = []

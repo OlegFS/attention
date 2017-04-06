@@ -1,12 +1,32 @@
-from common import *
+from helpers import *
+from common import * 
+from autoreload import *
+from autocr import *
+import numpy as np
+from numpy import shape, ones, zeros
+from numpy.linalg import inv, det, norm, eigh
+conc = np.concatenate
+na = np.newaxis
+log = np.log
+exp = np.exp
+dot = np.dot
+sqrt  = np.sqrt
+def maxabs( x ):
+    """ Max of the absolute values of elements of an array. """
+    if len(x) == 0:
+        return 0
+    return np.max(np.abs(x))
 
-
+def is_even( N ):
+    """ Boolean: is `N` an even integer? """
+    return ( int(N // 2) * 2 == N )
 """
+
 ===========
 Special DFT
 ===========
 """
-
+A = np.array
 def sfft( x ):
     """ FFT of a real signal, with real and imag coefficients separated. 
    
@@ -247,7 +267,7 @@ class Data( AutoReloader ):
             announcer = Announcer( verbose=verbose )
         self._announcer = announcer
         # normalise
-        T, D = shape( X )
+        T, D =shape(X)
         if normalise or whiten:
             self.announce('normalising', prefix='Data')
             self._Xm = Xm = np.mean( X, axis=0 )
@@ -500,7 +520,7 @@ class Solver( AutoCR ):
 
     """ Superclass for UnitSolvers and PopSolvers. 
     
-    Optimisation over variable `v` takes place via the vector `v_vec`. This
+    Optimisation over variable `v ` takes place via the vector `v_vec`. This
     includes any auxiliary variables that have to be optimised as well.
     
     """
@@ -1076,7 +1096,7 @@ class Solver( AutoCR ):
     Cross-validation
     ================
     """
-    
+  
     def _define_training_and_testing_regions( 
             self, testing_proportion, testing_block_size_smp ):
         """ Partitions the data for cross-validation. 
@@ -1760,6 +1780,7 @@ class UnitSolver( Solver ):
 
     @cached
     def dims_h( Lh, _cutoff_lambda_h ):
+    
         return ( Lh/maxabs(Lh) > _cutoff_lambda_h )
 
     @cached
@@ -1903,6 +1924,8 @@ class UnitSolver( Solver ):
 
     @cached
     def LL_training__h( y_training, _slice_by_training, mu__h, log_mu__h ):
+
+        #from IPython.core.debugger import Tracer; Tracer()() 
         s = _slice_by_training
         mu, log_mu = s(mu__h), s(log_mu__h)
         return -np.sum( mu ) + dot( y_training, log_mu )

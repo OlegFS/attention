@@ -42,7 +42,7 @@ join = os.path.join
 from numpy import log, exp, diag, nanmean, nanvar, shape
 from numpy.linalg import norm, svd, inv
 from numpy.random import permutation as perm
-
+from numpy import fft, shape, zeros, ones, eye, dot, exp, log, sqrt, diag
 
 from scipy.special import gammaln
 
@@ -64,7 +64,20 @@ def logfactorial(x):
 Helper functions
 ================
 """
+def ldiv(A, b):
+    """ Left division of matrix A by b; i.e. A \ b in matlab notation. """
+    return np.linalg.solve(A, b)
 
+def logdet(X):
+    """ Log determinant of a matrix. """
+    return np.linalg.slogdet(X)[1]
+
+def maxabs( x ):
+    # """ Max of the absolute values of elements of an array. """
+    if len(x) == 0:
+        return 0
+    return np.max(np.abs(x))
+                
 def off_diag_elements( x ):
     return conc([ x[i, i+1:] for i in range(len(x)) ])
 

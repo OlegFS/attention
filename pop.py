@@ -1,12 +1,31 @@
 from common import *
-
+from helpers import *
+import helpers
 import mop
-
+import weakref
+from numpy import zeros
+from scipy.linalg import block_diag
+from IPython.core.debugger import Tracer; 
 """
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 DATA STRUCTURE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 """
+dot = np.dot
+
+def mdot(*a):
+    """ Dot product of all vectors/matrices. 
+    
+    >>> mdot( X, Y, Z )
+    gives X.Y.Z where matrices are sizes X(a, b), Y(b, c), Z(c, d).
+    
+    """
+    return reduce( lambda x, y: dot(x, y), a )
+def maxabs( x ):
+    """ Max of the absolute values of elements of an array. """
+    if len(x) == 0:
+        return 0
+    return np.max(np.abs(x))
 
 class PopData( mop.Data ):
 
@@ -45,6 +64,8 @@ class PopData( mop.Data ):
         yy = np.arange( self.M )
         ax.plot( [0, 0], [-1, self.M], 'k-', lw=1 )
         for i in range( p ):
+            #Tracer()()
+
             xx = w_i = W[:, i]
             ax.plot( xx, yy, 'o-', lw=3 )
         # aesthetics
@@ -2590,6 +2611,7 @@ class PopSimple( PopSolver ):
         - 5: posterior k solvers
         
         """
+        #from IPython.core.debugger import Tracer; Tracer()() 
         # verbose
         self._announcer.thresh_allow( verbose, 1, 'solve' )
         self._announcer.thresh_allow( verbose, 2, 
@@ -2613,6 +2635,7 @@ class PopSimple( PopSolver ):
         #self.announce( '(1/12) initial estimate of theta_k, k' )
         #self.solve_theta_k( verbose=None )
         # initial estimate of sw
+        #Tracer()() 
         self.announce( '(2/12) initial re-estimate of s, w')
         self.calc_posterior_sw( verbose=None )
         # solve for theta_s
@@ -3070,6 +3093,7 @@ class Factorial_k( AutoCR ):
             normalise=False, whiten=False, add_constant=False )
             for m in range(M) ]
         # prepare initial conditions
+        #from IPython.core.debugger import Tracer; Tracer()() 
         K = initial_conditions.k.reshape( D, M )
         N_theta_ki = len( _k_solver_class._hyperparameter_names_k )
         theta_K = initial_conditions.theta_k.reshape( N_theta_ki, M )
